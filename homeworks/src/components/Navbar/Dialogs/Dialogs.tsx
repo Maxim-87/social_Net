@@ -1,4 +1,5 @@
 import React from "react";
+import { Redirect } from "react-router-dom";
 import p from './Dialogs.module.css';
 import {DialogItem} from "./DialogsItem/DialogsItem";
 import {Message} from "./Message/Message";
@@ -13,31 +14,19 @@ type DialogPropsType = {
     sendMessage: () => void
     // dialogs: Array<DialogsItemType>
     // message: Array<messageType>
-    dialogsPage: dialogsPageType
+    // dialogsPage: dialogsPageType
     // store: Store
     updateNewMessageBody: (body: any) => void
 }
 
-export const Dialogs = (props: DialogPropsType) => {
+export const Dialogs = (props: any) => {
 
     let state = props.dialogsPage;
 
-    let dialogsElements = state.dialogsData.map((d) => <DialogItem name={d.name} id={d.id}/>);
-    let messageElements = state.message.map((m) => <Message message={m.message} id={m.id}/>)
+    let dialogsElements = state.dialogsData.map((d: any) => <DialogItem name={d.name} id={d.id}/>);
+    let messageElements = state.message.map((m: any) => <Message message={m.message} id={m.id}/>)
     let newMessageBody = state.newMessageBody;
-    //let newMessageBody = props.store._state.dialogsPage.newMessageBody;
-    // let newMessegeElement = React.createRef<HTMLTextAreaElement>()
-    // let sendMessege = () => {
-    //     if (newMessegeElement.current) {
-    //         let send = newMessegeElement.current.value
-    //         alert(send)
-    //     }
-    // }
-    // const onKeyPressHandler = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    //     if (e.key === 'Enter') {
-    //         onSendMessageClick()
-    //     }
-    // }
+
 
     let onSendMessageClick = () => {
         props.sendMessage()
@@ -48,6 +37,8 @@ export const Dialogs = (props: DialogPropsType) => {
         props.updateNewMessageBody(body);
     }
 
+    if (props.isAuth == false) return <Redirect to={'/login'}/>;
+
     return (
         <div className={p.dialogs}>
             <div className={p.dialogsItems}>
@@ -56,9 +47,11 @@ export const Dialogs = (props: DialogPropsType) => {
             <div className={p.message}>
                 <div>{messageElements}</div>
                 <div>
-                    <div><textarea value={newMessageBody}
-                                   onChange={onNewMessageChange}
-                                   placeholder='Enter your message'></textarea></div>
+                    <div>
+                        <textarea value={newMessageBody}
+                                  onChange={onNewMessageChange}
+                                  placeholder='Enter your message'> </textarea>
+                    </div>
                     <div>
                         <button onClick={onSendMessageClick}> Send</button>
                     </div>
@@ -66,17 +59,4 @@ export const Dialogs = (props: DialogPropsType) => {
             </div>
         </div>
     )
-}
-
-{/*<textarea ref={newMessegeElement}> </textarea>*/
-}
-{/*</div>*/
-}
-{/*<div>*/
-}
-{/*<button onClick={sendMessege}> Send messege</button>*/
-}
-{/*</div>*/
-}
-{/*{messageElements}*/
 }

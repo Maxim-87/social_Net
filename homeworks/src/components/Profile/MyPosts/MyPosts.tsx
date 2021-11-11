@@ -1,34 +1,47 @@
 import React from 'react';
 import p from './MyPosts.module.css';
 import {Post} from "./Post/Post";
-import {PostDataType} from "../../../redux/store";
 
+
+
+export type profilePageType = {
+    postsData: PostDataType[]
+    newPostText: string
+}
+
+export type PostDataType = {
+    id: number
+    message: string
+    likeCount: number
+}
 
 type MyPostsPropsType = {
     // profilePage: profilePageType
-    posts: Array<PostDataType>
+    // posts: Array<PostDataType>
     // dispatch: (action: any) => void
     newPostText: string
     addPost: () => void
-    onChangePost: Function
+    // onChangePost: Function
+    updateNewPostText: (newText: string) => void
+    postsData: PostDataType[]
 }
 
-// let addPostActionCreator = () => {
-//     return {
-//         type: 'ADD-POST'
-//     }
-// }
-//
-// let updateNewPostTextActionCreator = (text: any) => {
-//     return {
-//         type:'UPDATE-NEW-POST-TEXT', newText: text
-//     }
-// }
+let addPostActionCreator = () => {
+    return {
+        type: 'ADD-POST'
+    }
+}
+
+let updateNewPostTextActionCreator = (text: string) => {
+    return {
+        type:'UPDATE-NEW-POST-TEXT', newText: text
+    }
+}
 
 export const MyPosts = (props: MyPostsPropsType) => {
 
     let postsElements =
-        props.posts.map((p: PostDataType) => <Post message={p.message} likeCount={p.likeCount}/>);
+        props.postsData.map((p: any) => <Post message={p.message} likeCount={p.likeCount}/>);
 
     let newPostElement = React.createRef<HTMLTextAreaElement>();
 
@@ -36,8 +49,8 @@ export const MyPosts = (props: MyPostsPropsType) => {
         props.addPost();
         // if (newPostElement.current) {
         //     let text = newPostElement.current.value;
-        //     // props.dispatch(text);
-        //     props.dispatch(addPostActionCreator());
+        //     props.dispatch(text);
+        //     // props.dispatch(addPostActionCreator());
         // }
 
     }
@@ -47,7 +60,7 @@ export const MyPosts = (props: MyPostsPropsType) => {
         // let action = ({type:'UPDATE-NEW-POST-TEXT', newText: text})
         // let action = updateNewPostTextActionCreator(text)
         // props.dispatch(action);
-        props.onChangePost(text);
+        text && props.updateNewPostText(text);
     }
 
     return (
@@ -66,10 +79,10 @@ export const MyPosts = (props: MyPostsPropsType) => {
                 </div>
             </div>
             <div className={p.posts}>
+                {<Post message={props.postsData[0].message} likeCount={props.postsData[0].likeCount}/>}
+                {<Post message={props.postsData[1].message} likeCount={props.postsData[1].likeCount}/>}
                 {postsElements}
-                {/*<Post message={postsData[0].message} likeCount={postsData[0].likeCount}/>
-                <Post message={postsData[1].message} likeCount={postsData[1].likeCount}/>*/}
             </div>
         </div>
     )
-}
+};
