@@ -4,7 +4,7 @@ import {Dialogs} from "./Dialogs";
 import {connect} from "react-redux";
 import {Dispatch} from "redux";
 import {RootAppStoreType} from "../../../redux/redux-store";
-
+import {withAuthRedirect} from "../../../hoc/WithAuthRedirect";
 
 
 type DialogsItemType = {
@@ -37,19 +37,6 @@ let mapDispatchToProps = (dispatch: Dispatch) => {
     }
 }
 
-export let DialogsContainer = connect(mapStateToProps,mapDispatchToProps)(Dialogs);
+let AuthRedirectComponent = withAuthRedirect(Dialogs);
 
-
-
-{/*<textarea ref={newMessegeElement}> </textarea>*/
-}
-{/*</div>*/
-}
-{/*<div>*/
-}
-{/*<button onClick={sendMessege}> Send messege</button>*/
-}
-{/*</div>*/
-}
-{/*{messageElements}*/
-}
+export let DialogsContainer = connect(mapStateToProps,mapDispatchToProps)(AuthRedirectComponent);

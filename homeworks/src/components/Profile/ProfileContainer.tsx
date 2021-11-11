@@ -3,13 +3,15 @@ import {Profile} from "./Profile";
 import {RootAppStoreType} from "../../redux/redux-store";
 import {getUserProfile, ProfileDataType} from "../../redux/profile-reducer";
 import {connect} from "react-redux"
-import {withRouter} from 'react-router-dom'
+import {Redirect, withRouter} from 'react-router-dom'
+import {withAuthRedirect} from "../../hoc/WithAuthRedirect";
 
 
 
 export type ProfilePropsType = {
     getUserProfile: (userId: number) => void
     profile: null | ProfileDataType
+
 }
 
 type MapStateType = {
@@ -32,12 +34,16 @@ class ProfileContainer extends React.Component<any> {
     }
 
     render() {
+
+
+
         return (
             <Profile {...this.props} profile={this.props.profile}/>
         )
     }
 }
 
+let AuthRedirectComponent = withAuthRedirect(ProfileContainer);
 
 const mapStateToProps = (state: RootAppStoreType): MapStateType => {
     return {
@@ -47,10 +53,7 @@ const mapStateToProps = (state: RootAppStoreType): MapStateType => {
 
 };
 
-
-
-
-let WithUrlDataContainerComponent = withRouter(ProfileContainer);
+let WithUrlDataContainerComponent = withRouter(AuthRedirectComponent);
 
 // type ProfileHOCType =  connect<MapStateType, MapDispatchToPropsType, {}, RootAppStoreType>(mapStateToProps, {setUserProfile})(WithUrlDataContainerComponent);
 export default connect<MapStateType, MapDispatchToPropsType, {}, RootAppStoreType>(mapStateToProps, {getUserProfile})(WithUrlDataContainerComponent)

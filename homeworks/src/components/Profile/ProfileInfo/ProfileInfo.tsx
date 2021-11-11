@@ -2,7 +2,6 @@ import s from './ProfileInfo.module.css'
 import React from "react";
 import {ProfilePropsType} from "../Profile";
 import {Preload} from "../../Navbar/common/Preloader/Preload";
-import {ProfileDataType} from "../../../redux/profile-reducer";
 
 
 export const ProfileInfo = (props: ProfilePropsType) => {
