@@ -1,6 +1,6 @@
 // import {dialogsPageType} from "./store";
 
-// import {dialogDataType, messageType} from "./store";
+import {dialogDataType, messageType} from "./store";
 
 export const UPDATE_NEW_MESSAGE_BODY = 'UPDATE-NEW-MESSAGE-BODY';
 export const SEND_MESSAGE = 'SEND_MESSAGE';
@@ -10,13 +10,13 @@ let initialDialogsState = {
         {id: 1, name: 'Andrey'},
         {id: 2, name: 'Viktor'},
         {id: 3, name: 'Valera'},
-        {id: 4, name: 'Margo'},
-    ] as Array<any>,
+        {id: 4, name: 'Sveta'},
+    ] as Array<dialogDataType>,
     message: [
         {id: 1, message: 'Hi'},
         {id: 2, message: 'How are you'},
         {id: 3, message: 'I am O.K.'}
-    ] as Array<any>,
+    ] as Array<messageType>,
     newMessageBody: "" as string
 };
 
@@ -26,6 +26,7 @@ const dialogsReducer = (state = initialDialogsState, action: any): initDialogsSt
 
     let stateCopy = {
         ...state,
+        // message: [...state.message]
         }
 
     if (action.type === UPDATE_NEW_MESSAGE_BODY) {
