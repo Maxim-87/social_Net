@@ -1,43 +1,24 @@
 import {authAPI} from "../Api/Api";
+import {getAuthUserData} from "./auth-reducer";
+import {Dispatch} from "redux";
 
-
-export const SET_USER_DATA = 'SET_USER_DATA';
-
-// export type UserType = {
-//     id: number
-//     photos: {
-//         small: null | string
-//         large: null | string
-//     }
-//     followed: boolean
-//     name: string
-//     status: string | null
-//     uniqueUrlName: null | string
-// }
+export const SET_INITIALIZED_SUCCESS = 'SET_INITIALIZED_SUCCESS';
 
 export type DataStateType = {
-    id: null | number
-    login: null | string
-    email: null | string
-    isAuth: boolean
+    initialized: boolean
 
 }
 
 let initialState = {
-    id: null,
-    login: null,
-    email: null,
-    isAuth: false
+    initialized: false
 };
 
-export const authReducer = (state: DataStateType = initialState, action: ActionsType):DataStateType => {
-
+export const appReducer = (state: DataStateType = initialState, action: ActionsType):DataStateType => {
     switch (action.type) {
-        case SET_USER_DATA: {
+        case SET_INITIALIZED_SUCCESS: {
             return {
                 ...state,
-                ...action.payload,
-                isAuth: true
+                initialized: true
             }
         }
         default:
@@ -45,44 +26,22 @@ export const authReducer = (state: DataStateType = initialState, action: Actions
     }
 }
 
-export const setAuthUserData = (id: null, login: null, email: null, isAuth: boolean) => ({type: SET_USER_DATA, payload: {id, email, login, isAuth}} as const)
-export const  getAuthUserData = () => (dispatch: any) => {
-    authAPI.me()
-        .then(response => {
-            if (response.data.resultCode === 0) {
-                let {id, login, email, isAuth} = response.data.data;
-                dispatch(setAuthUserData(id, login, email, false));
-            }
-        })
+export const initializedSuccess = ():initializedSuccessAT => ({type: SET_INITIALIZED_SUCCESS})
+type initializedSuccessAT = {
+    type: 'SET_INITIALIZED_SUCCESS'
+}
+export const initializeApp = () => (dispatch: any) => {
+    let promise = dispatch(getAuthUserData())
+    Promise.all([promise])
+        .then(() => {
+        dispatch(initializedSuccess())
+    })
 }
 
-export type loginDataType = {
-    email: string
-    password: string
-    rememberMe: boolean
-}
 
-export const  login = (email: string, password: string, rememberMe: boolean) => (dispatch: any) => {
-    authAPI.login(email, password, rememberMe)
-        .then(response => {
-            if (response.data.resultCode === 0) {
-                dispatch(getAuthUserData());
-            }
-        })
-}
+export type initializedSuccessActionType = ReturnType<typeof initializedSuccess>
 
-export const  logout = () => (dispatch: any) => {
-    authAPI.logout()
-        .then(response => {
-            if (response.data.resultCode === 0) {
-                dispatch(setAuthUserData(null, null, null, false));
-            }
-        })
-}
-
-export type setUserDataActionType = ReturnType<typeof setAuthUserData>
-
-type ActionsType = setUserDataActionType
+type ActionsType = initializedSuccessAT
 
 
 

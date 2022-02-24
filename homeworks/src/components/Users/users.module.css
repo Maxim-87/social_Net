@@ -3,6 +3,10 @@
     height: 80px;
 }
 
+.usersItem {
+    margin-left: 20px;
+}
+
 .selectPage {
     font-weight: bold;
 }

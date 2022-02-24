@@ -1,4 +1,10 @@
 .descripton {
     padding: 10px;
+    background-color: lightskyblue;
+}
+
+.descripton img {
+    width: 200px;
+    height: 200px;
 }
 

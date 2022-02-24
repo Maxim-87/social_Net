@@ -1,56 +1,51 @@
-import React, {ChangeEvent} from 'react';
+import React, {ChangeEvent, useEffect, useState} from 'react';
 
 type ProfileStatusType = {
     status: string
     updateStatus: (status: string) => void
 }
 
-export class ProfileStatus extends React.Component <ProfileStatusType> {
+const ProfileStatusWithHooks = (props: ProfileStatusType) => {
 
-    state = {
-        editMode: false,
-        status: this.props.status
+    const [value, setValue] = useState(false)
+    const [status, setStatus] = useState(props.status)
+
+    useEffect(()=> {
+        setStatus(props.status)
+    }, [props.status])
+
+    function activate () {
+        setValue(true)
     }
 
-    activateEditMode = () => {
-        this.setState({
-            editMode: true
-        })
+    function deActivate () {
+        setValue(false)
+        props.updateStatus(status)
+    }
+    function onChangeStatus (e: ChangeEvent<HTMLInputElement>) {
+        setStatus(e.currentTarget.value)
+
+
     }
 
-    deactivateEditModeDouble = () => {
-        this.setState({
-            editMode: false
-        })
-        this.props.updateStatus(this.state.status);
-    }
 
-    onStatusChange = (e: ChangeEvent<HTMLInputElement>) => {
-        this.setState({
-            status: e.currentTarget.value
-        })
-    }
-
-    componentDidUpdate(prevProps: Readonly<ProfileStatusType>, prevState: Readonly<{}>) {
-        if (prevProps.status !== this.props.status) {
-            this.setState({status: this.props.status})
-            console.log('Component update')
-        }
-    }
-
-    render() {
-        return (
+    return (
+        <div>
+            {value === !false ?
             <div>
-                {!this.state.editMode ?
-                    <div>
-                        <span onDoubleClick={this.activateEditMode}> {this.props.status || '***'} </span>
-                    </div> :
-                    <div>
-                        <input onChange={this.onStatusChange} onBlur={this.deactivateEditModeDouble}
-                               value={this.state.status}/>
-                    </div>}
-            </div>
+                <input autoFocus={true} onBlur={deActivate} value={status}
+                       onChange={onChangeStatus}
+                       onKeyPress={e => {if (e.charCode === 13){deActivate()}}}
+                />
+            </div> :
+                <div>
+                   <span onDoubleClick={activate}> <b> {props.status || '***'} </b></span>
+                </div>
+            }
+        </div>
 
-        )
-    }
+    )
+
 }
+
+export default ProfileStatusWithHooks

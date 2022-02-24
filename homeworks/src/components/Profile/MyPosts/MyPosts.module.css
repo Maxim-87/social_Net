@@ -1,5 +1,6 @@
-.postblock {
+.postBlock {
     padding: 10px;
+    background-color: lightskyblue;
 }
 .posts {
     margin-top: 10px;

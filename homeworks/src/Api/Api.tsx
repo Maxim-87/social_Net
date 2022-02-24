@@ -1,4 +1,5 @@
 import axios from "axios";
+import {loginDataType} from "../redux/auth-reducer";
 
 
 const inctance = axios.create({
@@ -23,14 +24,44 @@ export const usersAPI = {
         return inctance.delete(`follow/${userId}`)
     },
     getProfile(userId: number) {
-        debugger
+        console.warn('Obsolete method. Please profileApi object')
+        return profileAPI.getProfile(userId)
+    }
+}
+
+export const profileAPI = {
+    getProfile(userId: number) {
         return inctance.get(`profile/` + userId)
+    },
+    getStatus(userId: number) {
+        return inctance.get(`profile/status/` + userId)
+    },
+    updateStatus(status: string) {
+        return inctance.put(`profile/status`, {status: status})
+    },
+    savePhoto(file: any) {
+        const formData = new FormData();
+        formData.append('image', file)
+        return inctance.put(`profile/photo`, formData,{headers: {'Content-Type': 'multipart/form-data'}})
     }
 }
 
 export const authAPI = {
     me() {
         return inctance.get(`auth/me`)
+    },
+    login(data: loginDataType) {
+        debugger
+        return inctance.post(`auth/login`, data);
+    },
+    logout() {
+        return inctance.delete(`auth/login`);
+    }
+}
+
+export const securetyAPI = {
+    getCaptcha() {
+        return inctance.get(`security/get-captcha-url`)
     }
 }
 

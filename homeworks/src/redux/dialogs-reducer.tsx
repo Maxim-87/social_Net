@@ -1,8 +1,3 @@
-// import {dialogsPageType} from "./store";
-
-import {dialogDataType, messageType} from "./store";
-
-export const UPDATE_NEW_MESSAGE_BODY = 'UPDATE-NEW-MESSAGE-BODY';
 export const SEND_MESSAGE = 'SEND_MESSAGE';
 
 let initialDialogsState = {
@@ -10,14 +5,13 @@ let initialDialogsState = {
         {id: 1, name: 'Andrey'},
         {id: 2, name: 'Viktor'},
         {id: 3, name: 'Valera'},
-        {id: 4, name: 'Sveta'},
-    ] as Array<dialogDataType>,
+        {id: 4, name: 'Margo'},
+    ] as Array<any>,
     message: [
         {id: 1, message: 'Hi'},
         {id: 2, message: 'How are you'},
         {id: 3, message: 'I am O.K.'}
-    ] as Array<messageType>,
-    newMessageBody: "" as string
+    ] as Array<any>,
 };
 
 type initDialogsStateType = typeof initialDialogsState
@@ -26,22 +20,16 @@ const dialogsReducer = (state = initialDialogsState, action: any): initDialogsSt
 
     let stateCopy = {
         ...state,
-        // message: [...state.message]
-        }
+    }
 
-    if (action.type === UPDATE_NEW_MESSAGE_BODY) {
-        stateCopy.newMessageBody = action.body;
-        return stateCopy
-    } else if (action.type === SEND_MESSAGE) {
-        let body = state.newMessageBody;
-        stateCopy.newMessageBody = '';
+    if (action.type === SEND_MESSAGE) {
+        let body = action.newMessageBody;
         stateCopy.message.push({id: 5, message: body})
         return stateCopy;
     }
     return state;
 }
 
-export const sendMessageCreator = () => ({type: SEND_MESSAGE})
-export const updateNewMessageBodyCreator = (body: any) => ({type: UPDATE_NEW_MESSAGE_BODY, body: body})
+export const sendMessageCreator = (newMessageBody: string) => ({type: SEND_MESSAGE, newMessageBody})
 
 export default dialogsReducer;

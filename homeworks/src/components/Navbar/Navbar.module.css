@@ -1,13 +1,23 @@
 .nav {
     grid-area: n;
-    background-color: yellow;
+    background-color: lightgrey;
 }
 
 .item a {
-    color: greenyellow;
+    color: blueviolet;
+    margin-left: 15px;
     text-decoration: none;
 }
 
+.item a:hover {
+    background-color: darkgrey;
+    background-size: cover;
+    /*border: 1px solid black;*/
+}
+
 .item a.activeLink {
-    color: red;
+    text-decoration: underline;
+    color: darkblue;
+    font-weight: bold;
+
 }

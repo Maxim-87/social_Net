@@ -1,8 +1,11 @@
 import React from "react";
-import { Redirect } from "react-router-dom";
 import p from './Dialogs.module.css';
 import {DialogItem} from "./DialogsItem/DialogsItem";
 import {Message} from "./Message/Message";
+import {Field, InjectedFormProps, reduxForm} from "redux-form";
+import {Textarea} from "../../common/FormsConstrols";
+import {maxlengthCreator, required} from "../../../Utils/validators/validators";
+import {maxLength50} from "../../Profile/MyPosts/MyPosts";
 
 
 type DialogsItemType = {
@@ -18,25 +21,16 @@ type DialogPropsType = {
     updateNewMessageBody: (body: any) => void
 }
 
-export const Dialogs = (props: any) => {
-
+const Dialogs = (props: any) => {
     let state = props.dialogsPage;
 
     let dialogsElements = state.dialogsData.map((d: any) => <DialogItem name={d.name} id={d.id}/>);
     let messageElements = state.message.map((m: any) => <Message message={m.message} id={m.id}/>)
     let newMessageBody = state.newMessageBody;
 
-
-    let onSendMessageClick = () => {
-        props.sendMessage()
+    let addNewMessage = (values: any) => {
+        props.sendMessage(values.newMessageBody);
     }
-
-    let onNewMessageChange = (e: any) => {
-        let body = e.target.value;
-        props.updateNewMessageBody(body);
-    }
-
-    if (!props.isAuth) return <Redirect to={'/login'}/>;
 
     return (
         <div className={p.dialogs}>
@@ -45,17 +39,26 @@ export const Dialogs = (props: any) => {
             </div>
             <div className={p.message}>
                 <div>{messageElements}</div>
-                <div>
-                    <div>
-                        <textarea value={newMessageBody}
-                                  onChange={onNewMessageChange}
-                                  placeholder='Enter your message'> </textarea>
-                    </div>
-                    <div>
-                        <button onClick={onSendMessageClick}> Send</button>
-                    </div>
-                </div>
+                <AddMessageFormRedux onSubmit={addNewMessage}/>
             </div>
         </div>
     )
 }
+
+const AddMessageForm: React.FC<InjectedFormProps<any>> = (props: any) => {
+    return (
+        <form onSubmit={props.handleSubmit}>
+            <div>
+                <Field component={Textarea} name={'newMessageBody'} placeholder={'Enter your message'}
+                validate={[required, maxLength50]}/>
+            </div>
+            <div>
+                <button> Send </button>
+            </div>
+        </form>
+    )
+}
+
+const AddMessageFormRedux = reduxForm<any>({form: 'DialogAddMessageForm'}) (AddMessageForm)
+
+export default Dialogs

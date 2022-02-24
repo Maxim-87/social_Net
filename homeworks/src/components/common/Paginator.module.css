@@ -1,0 +1,26 @@
+.paginator {
+    margin: 10px;
+}
+
+.pageItem {
+    color: hsl(290deg 18% 17%);
+    margin: 10px;
+}
+
+.pageItem button {
+    margin-left: 3px;
+    width: 30px;
+    height: 17px;
+    font-size: x-small;
+    text-align: center;
+}
+
+.pageNumber {
+    /*padding: 2px;*/
+    border: 1px solid grey;
+}
+
+.pageNumber.selectedPage {
+    font-weight:  bold;
+    border-color: black;
+}

@@ -1,6 +1,6 @@
 .header {
     grid-area: h;
-    background-color: chartreuse;
+    background-color: steelblue
 }
 
 .header img {
@@ -10,4 +10,9 @@
 .loginBlock {
     float: right;
     color: white;
+}
+
+.loginBlock button {
+    background-color: gainsboro;
+    border-radius: 15px;
 }
