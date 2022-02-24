@@ -3,7 +3,6 @@ import './App.css';
 import {Navbar} from "./components/Navbar/Navbar";
 import {Route} from 'react-router-dom';
 import {DialogsContainer} from "./components/Navbar/Dialogs/DialogsContainer";
-import UsersContainer from "./components/Users/UsersContainer";
 
 import ProfileContainer from "./components/Profile/ProfileContainer";
 import HeaderContainer from "./components/Header/HeaderContainer";
@@ -33,8 +32,7 @@ const App = () => {
                     <Route path='/profile/:userId?'
                            render={() => <ProfileContainer  />}/>
 
-                    <Route path='/users'
-                           render={ () => <UsersContainer/>}/>
+<h1>Hello</h1>
 
                     <Route path='/login'
                         render={ () => <Login/>}/>
