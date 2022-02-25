@@ -59,9 +59,12 @@ export const authAPI = {
     }
 }
 
-export const securetyAPI = {
+export const securityAPI = {
     getCaptcha() {
+        debugger
         return inctance.get(`security/get-captcha-url`)
     }
 }
+
+
 

@@ -18,6 +18,7 @@ export const Login = () => {
     const dispatch = useDispatch();
 
     const isAuth = useSelector<RootAppStoreType, boolean>((state) => state.auth.isAuth);
+    const captchaUrl = useSelector<RootAppStoreType, null | string>((state) => state.auth.captchaUrl);
 
     const formik = useFormik({
         validate: (values) => {
@@ -35,7 +36,7 @@ export const Login = () => {
         initialValues: {
             email: '',
             password: '',
-            rememberMe: false
+            rememberMe: false,
         },
         onSubmit: values => {
             dispatch(login(values))
@@ -61,7 +62,7 @@ export const Login = () => {
                     <p>or use common test account credentials:</p>
                     <p>Email: free@samuraijs.com</p>
                     <p>Password: free</p>
-                </FormLabel>
+                                    </FormLabel>
                 <FormGroup>
                     <TextField
                         type='password'

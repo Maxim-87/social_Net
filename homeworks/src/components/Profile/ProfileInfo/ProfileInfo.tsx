@@ -5,6 +5,7 @@ import {Preload} from "../../Navbar/common/Preloader/Preload";
 import ProfileStatusWithHooks from "./ProfileStatusWithHooks";
 import userPhoto from "../../../images/user.png";
 import {ProfileDataType} from "../../../redux/profile-reducer";
+import ProfileDataFormReduxForm from "./ProfileDataForm";
 
 
 export const ProfileInfo = (props: ProfilePropsType) => {
@@ -13,6 +14,10 @@ export const ProfileInfo = (props: ProfilePropsType) => {
 
     const editData = () => {
         setProfileMode(true)
+    }
+
+    const editDataFalse = () => {
+        setProfileMode(false)
     }
 
     if (!Object.keys(props.profile).length) {
@@ -34,25 +39,28 @@ export const ProfileInfo = (props: ProfilePropsType) => {
             <div className={s.descripton}>
                 <img src={props.profile.photos.large || userPhoto}/>
                 {props.isOwner && <input type='file' onChange={selectPhoto}/>}
-                {profileMode ? <ProfileDataForm profile={props.profile}/> : <ProfileData profile={props.profile}
-                                                                                         isOwner={props.isOwner}
-                                                                                         editData={editData}/>}
-                <ProfileStatusWithHooks status={props.status} updateStatus={props.updateStatus}/>
+                {profileMode ? <ProfileDataFormReduxForm profile={props.profile}
+                                                         editData={editDataFalse}
+                /> : <ProfileData profile={props.profile}
+                                  isOwner={props.isOwner}
+                                  editData={editData}/>}
+                <ProfileStatusWithHooks status={props.status}
+                                        updateStatus={props.updateStatus}/>
 
             </div>
         </div>
     )
 }
 
-type ProfileType = {
+export type ProfileType = {
     profile: ProfileDataType
-    isOwner: boolean
+    isOwner?: boolean
     editData: () => void
 }
 
-type ProfileDataFormType = {
-    profile: ProfileDataType
-}
+// export type ProfileDataFormType = {
+//     profile: ProfileDataType
+// }
 
 const ProfileData = (props: ProfileType) => {
     return (
@@ -71,11 +79,5 @@ const ProfileData = (props: ProfileType) => {
     )
 }
 
-const ProfileDataForm = (props: ProfileDataFormType) => {
-    return (
-        <div>
-           Change Form
-        </div>
-    )
-}
+
 
