@@ -7,15 +7,15 @@ import {createField, Input, Textarea} from "../../common/FormsConstrols";
 type ProfileDataFormType = {
     profile: ProfileDataType
     // isOwner: boolean
-    editData: () => void
+
 }
 
 
-const ProfileDataForm:React.FC<InjectedFormProps<{}, ProfileDataFormType> & ProfileDataFormType> = ({profile, editData}) => {
+const ProfileDataForm:React.FC<InjectedFormProps<{}, ProfileDataFormType> & ProfileDataFormType> = ({profile, handleSubmit}) => {
 
         return (
-        <form>
-           <div> <button onClick={editData}> save </button> </div>
+        <form onSubmit={handleSubmit}>
+           <div> <button> save </button> </div>
             <div>
                <b> Full name </b>:  {createField('Full name', 'fullName', [], Input)}
             </div>
@@ -23,7 +23,11 @@ const ProfileDataForm:React.FC<InjectedFormProps<{}, ProfileDataFormType> & Prof
                 <b> Looking for a job </b>: {createField('', 'lookingForAJob', [], Input, {type: 'checkbox'})}
             </div>
             <div>
-                My professional skills: <b> {'TypeScript/JS, React, Redux'} </b>
+                 <b> My professional skills </b> : {createField('My professional skills', 'lookingForAJobDescription', [], Textarea)}
+            </div>
+
+            <div>
+                 <b> About me</b> : {createField('About me', 'aboutme', [], Textarea)}
             </div>
         </form>
     )

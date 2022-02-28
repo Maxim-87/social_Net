@@ -11,10 +11,12 @@ type PostDataType = {
     message: string
     likeCount: number
 }
+
 export type PhotosType = {
     small: string | undefined
     large: string | undefined
 }
+
 export type ContactsType = {
     github: string
     vk: string
@@ -33,6 +35,7 @@ export type ProfileDataType = {
     fullName: string
     contacts: ContactsType
     photos: PhotosType
+    aboutMe: string
 }
 
 export type initialStateType = {
@@ -80,8 +83,14 @@ const profileReducer = (state: initialStateType = initialState, action: ActionTy
         return state
     }
 }
-export const addPostActionCreator = (newPostText: any) => ({type: ADD_POST, newPostText} as const)
-export const setUserProfile = (profile: ProfileDataType) => ({type: SET_USER_PROFILE, profile} as const)
+export const addPostActionCreator = (newPostText: any) => ({
+    type: ADD_POST,
+    newPostText
+} as const)
+export const setUserProfile = (profile: ProfileDataType) => ({
+    type: SET_USER_PROFILE,
+    profile
+} as const)
 export const setStatus = (status: string) => ({type: SET_STATUS, status} as const)
 export const savePhotoAC = (photos: PhotosType) => ({type: SAVE_PHOTO, photos} as const)
 export const getUserProfile = (userId: number) => (dispatch: any) => {
@@ -105,7 +114,6 @@ export const updateStatus = (status: string) => (dispatch: any) => {
 }
 
 export const savePhotoThunk = (file: File) => (dispatch: any) => {
-    debugger
     profileAPI.savePhoto(file)
         .then(response => {
             if (response.data.resultCode === 0) {
@@ -114,9 +122,21 @@ export const savePhotoThunk = (file: File) => (dispatch: any) => {
 
         })
 }
+export const saveProfile = (profile: any) => (dispatch: any) => {
+    const userId = 19087;
+    profileAPI.saveProfile(profile)
+        .then(response => {
+            if (response.data.resultCode === 0) {
+                dispatch(getUserProfile(userId))
+            }
 
+        })
+}
 
-type ActionType = ReturnType<typeof addPostActionCreator>
-    | ReturnType<typeof setUserProfile> | ReturnType<typeof setStatus> | ReturnType<typeof savePhotoAC>
+type ActionType =
+    ReturnType<typeof addPostActionCreator>
+    | ReturnType<typeof setUserProfile>
+    | ReturnType<typeof setStatus>
+    | ReturnType<typeof savePhotoAC>
 
 export default profileReducer;

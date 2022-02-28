@@ -1,7 +1,7 @@
 import React from 'react';
 import {ProfileInfo} from "./ProfileInfo/ProfileInfo";
 import {MyPostsContainer} from "./MyPosts/MyPostsContainer";
-import {ProfileDataType, savePhotoThunk} from "../../redux/profile-reducer";
+import {ProfileDataType} from "../../redux/profile-reducer";
 
 export type ProfilePropsType = {
     profile: ProfileDataType
@@ -9,6 +9,7 @@ export type ProfilePropsType = {
     updateStatus: (status: string) => void
     isOwner: boolean
     savePhotoThunk: (file: File) => void
+    saveProfile: any
 }
 
 export const Profile: React.FC<ProfilePropsType> = (props) => {
@@ -19,7 +20,8 @@ export const Profile: React.FC<ProfilePropsType> = (props) => {
                 profile={props.profile}
                 status={props.status}
                 updateStatus={props.updateStatus}
-                savePhotoThunk={props.savePhotoThunk}/>
+                savePhotoThunk={props.savePhotoThunk}
+                saveProfile={props.saveProfile}/>
             <MyPostsContainer/>
 
         </div>

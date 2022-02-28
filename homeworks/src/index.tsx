@@ -6,8 +6,6 @@ import { Provider } from 'react-redux';
 import {BrowserRouter} from 'react-router-dom';
 import App from "./App";
 
-
-
 let rerenderEntireTree = () => {
     ReactDOM.render(
              <BrowserRouter>
@@ -20,9 +18,6 @@ let rerenderEntireTree = () => {
     );
 }
 
- rerenderEntireTree();
+rerenderEntireTree();
 
-// store.subscribe(rerenderEntireTree);
-//
-// reportWebVitals();
 

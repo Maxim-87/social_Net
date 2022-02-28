@@ -24,6 +24,7 @@ class App extends React.Component<AppType, {}> {
     componentDidMount() {
         this.props.initializeApp()
     }
+
     render() {
         if (!this.props.initialized) {
             return <Preload/>
@@ -47,6 +48,8 @@ class App extends React.Component<AppType, {}> {
                     <Route path='/login'
                            render={() => <Login/>}/>
 
+                    <Route path={'/*'}
+                    render={() => <div> 404 NOT FOUND </div>}/>
                 </div>
             </div>
         );

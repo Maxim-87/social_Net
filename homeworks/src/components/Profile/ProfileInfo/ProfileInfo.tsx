@@ -16,10 +16,6 @@ export const ProfileInfo = (props: ProfilePropsType) => {
         setProfileMode(true)
     }
 
-    const editDataFalse = () => {
-        setProfileMode(false)
-    }
-
     if (!Object.keys(props.profile).length) {
         return <Preload/>
     }
@@ -34,13 +30,21 @@ export const ProfileInfo = (props: ProfilePropsType) => {
         // }
     }
 
+    const onSubmit = (formData: any) => {
+        debugger
+        props.saveProfile(formData);
+        setProfileMode(false);
+
+    }
+
     return (
         <div>
             <div className={s.descripton}>
                 <img src={props.profile.photos.large || userPhoto}/>
                 {props.isOwner && <input type='file' onChange={selectPhoto}/>}
                 {profileMode ? <ProfileDataFormReduxForm profile={props.profile}
-                                                         editData={editDataFalse}
+                                                         onSubmit={onSubmit}
+                                                         initialValues={props.profile}
                 /> : <ProfileData profile={props.profile}
                                   isOwner={props.isOwner}
                                   editData={editData}/>}
@@ -56,6 +60,7 @@ export type ProfileType = {
     profile: ProfileDataType
     isOwner?: boolean
     editData: () => void
+    saveProfile?: any
 }
 
 // export type ProfileDataFormType = {
@@ -67,14 +72,20 @@ const ProfileData = (props: ProfileType) => {
         <div>
             {props.isOwner && <button onClick={props.editData}> edit </button>}
             <div>
-                Full name : <b> {'Pechyonkin Maxim'} </b>
+                <b> Full name </b>:  {props.profile.fullName}
             </div>
+                <div>
+                    <b> Looking for a job </b>:  {props.profile.lookingForAJob ? 'yes' : 'no'}
+                </div>
+            { props.profile.lookingForAJob &&
             <div>
-                Looking for a job: <b> {props.profile.lookingForAJob ? "no" : 'yes'} </b>
+                <b>   My professional skills </b>:  {props.profile.lookingForAJobDescription}
             </div>
+            }
             <div>
-                My professional skills: <b> {'TypeScript/JS, React, Redux'} </b>
+                <b> About me </b>:  {props.profile.aboutMe}
             </div>
+
         </div>
     )
 }
